@@ -1,0 +1,41 @@
+name: Node.js continuous integration
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+        pnpm-version: [6.7.0]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_NODE_ENV: ${{ secrets.NODE_ENV }}
+          envkey_PORT: ${{ secrets.PORT }}
+          envkey_DB_MONGO: ${{ secrets.DB_MONGO }}
+          envkey_TEST_DB_MONGO: ${{ secrets.TEST_DB_MONGO }}
+          envkey_JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+          file_name: .env
+      - name: Install dependencies
+        run: |
+          npm install -g pnpm@${{ matrix.pnpm-version }}
+          pnpm install
+      - name: Lint
+        run: pnpm run lint
+      - name: Test
+        run: pnpm run test
+      - name: Build
+        run: pnpm run build

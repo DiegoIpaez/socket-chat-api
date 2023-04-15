@@ -1,0 +1,10 @@
+{
+  "preset": "ts-jest",
+  "testEnvironment": "node",
+  "testMatch": ["**/**/*.test.ts"],
+  "verbose": true,
+  "forceExit": true,
+  "detectOpenHandles": true,
+  "coveragePathIgnorePatterns": ["/node_modules/", "/dist/", "/test/"],
+  "coverageReporters": ["json", "html"]
+}
