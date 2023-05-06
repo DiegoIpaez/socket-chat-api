@@ -1,7 +1,7 @@
 import type { ValidationChain } from 'express-validator';
 import type { NextFunction, Request, Response } from 'express';
 import type { JwtPayload } from 'jsonwebtoken';
-import type { Document } from 'mongoose';
+import type { Document, Types } from 'mongoose';
 
 export type ValidateFields = (
   req: Request,
@@ -11,7 +11,7 @@ export type ValidateFields = (
 export type ExpressValidations = Array<ValidationChain | ValidateFields>;
 export type IDictionary<TValue> = Record<string, TValue>;
 
-export interface User extends Document {
+export interface IUser extends Document {
   username: string;
   email: string;
   password: string;
@@ -21,11 +21,20 @@ export interface User extends Document {
   updatedAt: Date;
 }
 
+export interface IMessage extends Document {
+  from: Types.ObjectId | IUser;
+  to: Types.ObjectId | IUser;
+  message: string;
+  deleted: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface JwtPayloadExt extends JwtPayload {
   id?: string;
 }
 export interface RequestExt extends Request {
-  user?: User | string;
+  user?: IUser | string;
 }
 
 export interface APIError {

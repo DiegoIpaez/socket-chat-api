@@ -1,7 +1,7 @@
-import type { JwtPayloadExt, User } from '../interfaces';
+import type { JwtPayloadExt, IUser } from '../interfaces';
 import config from '../config';
 import jwt from 'jsonwebtoken';
-import UserModel from '../model/User';
+import User from '../model/User';
 
 const JWT_SECRET_KEY = config.JWT_SECRET_KEY;
 
@@ -11,12 +11,12 @@ const generateToken = (id: string): string => {
   return token;
 };
 
-const validToken = async (token?: string): Promise<User> => {
+const validToken = async (token?: string): Promise<IUser> => {
   if (!token) throw new Error('Authentication failed! Token required.');
   try {
     const jwtData: JwtPayloadExt | string = jwt.verify(token, JWT_SECRET_KEY);
     if (typeof jwtData !== 'string' && jwtData.id) {
-      const user = await UserModel.findById(jwtData.id);
+      const user = await User.findById(jwtData.id);
       if (!user) throw new Error('Invalid user.');
       if (user.deleted) throw new Error('Invalid user.');
       return user;
