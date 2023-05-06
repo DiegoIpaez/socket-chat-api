@@ -1,15 +1,21 @@
 import type { ValidationChain } from 'express-validator';
 import type { NextFunction, Request, Response } from 'express';
 import type { JwtPayload } from 'jsonwebtoken';
-import type { Document, Types } from 'mongoose';
+import type { Document, Types, QuerySelector } from 'mongoose';
 
+export enum IMongoSortOrder {
+  ASC = 1,
+  DESC = -1,
+}
+
+export type IDictionary<TValue> = Record<string, TValue>;
+export type MongoFilterQuery<TValue> = QuerySelector<TValue> | TValue;
+export type ExpressValidations = Array<ValidationChain | ValidateFields>;
 export type ValidateFields = (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => Response | undefined;
-export type ExpressValidations = Array<ValidationChain | ValidateFields>;
-export type IDictionary<TValue> = Record<string, TValue>;
 
 export interface IUser extends Document {
   username: string;
