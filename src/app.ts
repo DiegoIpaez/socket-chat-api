@@ -7,6 +7,7 @@ import express, { json, urlencoded } from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import routes from './routes';
+import socketChatController from './controllers/chatController';
 
 const app = express();
 const server = createServer(app);
@@ -20,7 +21,9 @@ app.use(urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '../src/public')));
 
 io.on('connection', (socket) => {
-  socket.emit('msg-welcome', { msg: 'Welcome to Server' });
+  socketChatController.connectUser(socket, io);
+  socketChatController.sendPersonalMessage(socket, io);
+  socketChatController.disconnectUser(socket, io);
 });
 
 app.use('/api', routes);
