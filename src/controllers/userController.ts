@@ -4,6 +4,7 @@ import {
   handleCustomHttpError,
 } from '../utils/handleHttpError';
 import User from '../model/User';
+import { getAllUsersByFilters } from '../services/userService';
 
 const USER_NOT_FOUND = {
   code: 404,
@@ -14,11 +15,13 @@ const getUsers = async (req: Request, res: Response) => {
   try {
     const { limit = 5, init = 0 } = req.query;
 
-    const [total, users] = await Promise.all([
-      User.countDocuments({ deleted: false }),
-      User.find({ deleted: false }).skip(Number(init)).limit(Number(limit)),
-    ]);
-    const responseData = { total, users };
+    const filters = {
+      limit: Number(limit),
+      init: Number(init),
+      deleted: false,
+    };
+
+    const responseData = await getAllUsersByFilters(filters);
     return res.status(200).json({ data: responseData });
   } catch (error) {
     handleHttpError(res, error);
