@@ -1,6 +1,6 @@
 import type { IMongoSortOrder, MongoFilterQuery } from '../interfaces';
 import { MONGO_SORT_ORDER } from '../constants';
-import User from '../model/user.model';
+import User from '../models/user.model';
 
 interface FilterToGetUsers {
   limit: number;

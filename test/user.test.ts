@@ -6,7 +6,7 @@ import {
   connectToMongoDB,
   disconnectFromMongoDB,
 } from '../src/database/config';
-import User from '../src/model/user.model';
+import { User } from '../src/models';
 
 const request = supertest(server);
 

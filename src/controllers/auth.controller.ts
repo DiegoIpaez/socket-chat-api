@@ -3,7 +3,7 @@ import httpStatus from 'http-status';
 import { encryptPassword, comparePasswords } from '../services/auth.service';
 import { generateToken } from '../utils/handleJWT';
 import ApiError from '../utils/ApiError';
-import User from '../model/user.model';
+import User from '../models/user.model';
 import { ERROR_MESSAGES } from '../constants';
 
 const login: RequestHandler = async (req, res, next) => {

@@ -1,6 +1,6 @@
 import type { RequestHandler } from 'express';
 import httpStatus from 'http-status';
-import User from '../model/user.model';
+import User from '../models/user.model';
 import { getAllUsersByFilters } from '../services/user.service';
 import ApiError from '../utils/ApiError';
 import { ERROR_MESSAGES } from '../constants';
