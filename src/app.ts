@@ -6,7 +6,9 @@ import compression from 'compression';
 import express, { json, urlencoded } from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
+
 import routes from './routes';
+import { streamSettings } from './utils/logger';
 import socketChatController from './controllers/chatController';
 
 const app = express();
@@ -16,7 +18,7 @@ const io = new Server(server);
 app.use(cors());
 app.use(json());
 app.use(compression());
-app.use(morgan('dev'));
+app.use(morgan('dev', streamSettings));
 app.use(urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '../src/public')));
 
