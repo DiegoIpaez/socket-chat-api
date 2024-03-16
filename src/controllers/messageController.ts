@@ -1,6 +1,6 @@
 import { type RequestHandler } from 'express';
 import Message from '../model/Message';
-import { MONGO_SORT_ORDER } from '../utils/constants';
+import { MONGO_SORT_ORDER } from '../constants';
 
 const DEFAULT_LIMIT = 30;
 

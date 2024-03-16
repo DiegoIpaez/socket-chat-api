@@ -1,21 +1,10 @@
-import { type RequestHandler } from 'express';
+import type { RequestHandler } from 'express';
+import httpStatus from 'http-status';
 import { encryptPassword, comparePasswords } from '../services/authService';
 import { generateToken } from '../utils/handleJWT';
-import User from '../model/User';
 import ApiError from '../utils/ApiError';
-
-const INVALID_USER = {
-  code: 401,
-  message: 'Invalid password or email.',
-};
-const USER_NOT_FOUND = {
-  code: 404,
-  message: 'User not found',
-};
-const USER_EXIST = {
-  code: 409,
-  message: 'This user already exists',
-};
+import User from '../model/User';
+import { ERROR_MESSAGES } from '../constants';
 
 const login: RequestHandler = async (req, res, next) => {
   try {
@@ -23,7 +12,10 @@ const login: RequestHandler = async (req, res, next) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      throw new ApiError(USER_NOT_FOUND.code, USER_NOT_FOUND.message);
+      throw new ApiError(
+        httpStatus.NOT_FOUND,
+        ERROR_MESSAGES.USER[httpStatus.NOT_FOUND],
+      );
     }
 
     const isValidPassword = await comparePasswords(
@@ -32,7 +24,10 @@ const login: RequestHandler = async (req, res, next) => {
     );
 
     if (!isValidPassword) {
-      throw new ApiError(INVALID_USER.code, INVALID_USER.message);
+      throw new ApiError(
+        httpStatus.UNAUTHORIZED,
+        ERROR_MESSAGES.USER[httpStatus.UNAUTHORIZED],
+      );
     }
 
     const token = generateToken(user?._id);
@@ -49,7 +44,10 @@ const register: RequestHandler = async (req, res, next) => {
 
     const userExist = await User.findOne({ email });
     if (userExist) {
-      throw new ApiError(USER_EXIST.code, USER_EXIST.message);
+      throw new ApiError(
+        httpStatus.CONFLICT,
+        ERROR_MESSAGES.USER[httpStatus.CONFLICT],
+      );
     }
 
     const passwordHash = await encryptPassword(password);

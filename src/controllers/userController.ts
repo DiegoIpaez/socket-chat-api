@@ -1,12 +1,9 @@
-import { type RequestHandler } from 'express';
+import type { RequestHandler } from 'express';
+import httpStatus from 'http-status';
 import User from '../model/User';
 import { getAllUsersByFilters } from '../services/userService';
 import ApiError from '../utils/ApiError';
-
-const USER_NOT_FOUND = {
-  code: 404,
-  message: 'User not found',
-};
+import { ERROR_MESSAGES } from '../constants';
 
 const getUsers: RequestHandler = async (req, res, next) => {
   try {
@@ -31,7 +28,10 @@ const getUserById: RequestHandler = async (req, res, next) => {
     const user = await User.findById(id);
 
     if (!user) {
-      throw new ApiError(USER_NOT_FOUND.code, USER_NOT_FOUND.message);
+      throw new ApiError(
+        httpStatus.NOT_FOUND,
+        ERROR_MESSAGES.USER[httpStatus.NOT_FOUND],
+      );
     }
 
     return res.status(200).json({ data: { user } });
@@ -50,7 +50,10 @@ const deleteUser: RequestHandler = async (req, res, next) => {
     const userDeleted = await User.findOneAndUpdate(filter, update, options);
 
     if (!userDeleted) {
-      throw new ApiError(USER_NOT_FOUND.code, USER_NOT_FOUND.message);
+      throw new ApiError(
+        httpStatus.NOT_FOUND,
+        ERROR_MESSAGES.USER[httpStatus.NOT_FOUND],
+      );
     }
 
     const responseData = {

@@ -5,16 +5,12 @@ import {
   savePersonalMessage,
   connectOrDisconnectUser,
 } from '../services/chatService';
+import { USER_CONNECTION_STATUS } from '../constants';
 
 type SocketFunction = (socket: Socket, io?: Server) => void;
 type ISocketChatEndPoints = Record<string, SocketFunction>;
 
 const socketChatEndPoints: ISocketChatEndPoints = {};
-
-const USER_CONNECTION_STATUS = {
-  CONNECT: true,
-  DISCONNECT: false,
-};
 
 const validateToken = async (socket: Socket) => {
   const token = socket?.handshake?.query?.Autorization ?? '';
