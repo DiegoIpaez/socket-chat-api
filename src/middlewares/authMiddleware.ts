@@ -1,10 +1,14 @@
-import type { Response, NextFunction } from 'express';
-import type { RequestExt, ExpressValidations } from '../interfaces';
+import type { Response, Request, NextFunction } from 'express';
+import type { ExpressValidations, IUser } from '../interfaces';
+
 import { check } from 'express-validator';
 import { validateFields } from '../utils/handleValidator';
-import { handleCustomHttpError } from '../utils/handleHttpError';
 import { makeBasicValidation } from '../utils/makeBasicValidation';
 import { validToken, generateToken } from '../utils/handleJWT';
+
+interface RequestExt extends Request {
+  user?: IUser | string;
+}
 
 const isEmail = check('email', 'Enter a valid email').isEmail();
 const emailRequired = makeBasicValidation('email', {
@@ -47,9 +51,12 @@ const validJWT = async (req: RequestExt, res: Response, next: NextFunction) => {
     res.header('Token-Refresh', generateToken(isValid?._id));
     next();
   } catch (err: Error | unknown) {
-    const errMsg =
-      err instanceof Error ? err?.message : 'Authentication failed!';
-    handleCustomHttpError(res, errMsg, 401);
+    return res.status(401).json({
+      error: {
+        message: err instanceof Error ? err?.message : 'Authentication failed!',
+        statusCode: 401,
+      },
+    });
   }
 };
 

@@ -1,11 +1,10 @@
-import type { Request, Response } from 'express';
+import { type RequestHandler } from 'express';
 import Message from '../model/Message';
-import { handleHttpError } from '../utils/handleHttpError';
 import { MONGO_SORT_ORDER } from '../utils/constants';
 
 const DEFAULT_LIMIT = 30;
 
-const getLatestMessagesByChat = async (req: Request, res: Response) => {
+const getLatestMessagesByChat: RequestHandler = async (req, res, next) => {
   try {
     const { from, to, limit = DEFAULT_LIMIT } = req.query;
     const limitData = Number(limit);
@@ -23,7 +22,7 @@ const getLatestMessagesByChat = async (req: Request, res: Response) => {
     const messageSortedAsc = lastMessages.reverse();
     return res.status(200).json({ data: { messages: messageSortedAsc } });
   } catch (error) {
-    handleHttpError(res, error);
+    next(error);
   }
 };
 

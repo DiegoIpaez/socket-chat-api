@@ -1,11 +1,8 @@
-import type { Request, Response } from 'express';
+import { type RequestHandler } from 'express';
 import { encryptPassword, comparePasswords } from '../services/authService';
 import { generateToken } from '../utils/handleJWT';
-import {
-  handleCustomHttpError,
-  handleHttpError,
-} from '../utils/handleHttpError';
 import User from '../model/User';
+import ApiError from '../utils/ApiError';
 
 const INVALID_USER = {
   code: 401,
@@ -20,44 +17,41 @@ const USER_EXIST = {
   message: 'This user already exists',
 };
 
-const login = async (req: Request, res: Response) => {
+const login: RequestHandler = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
+
     if (!user) {
-      return handleCustomHttpError(
-        res,
-        USER_NOT_FOUND.message,
-        USER_NOT_FOUND.code,
-      );
+      throw new ApiError(USER_NOT_FOUND.code, USER_NOT_FOUND.message);
     }
+
     const isValidPassword = await comparePasswords(
       password,
       user?.password.valueOf(),
     );
+
     if (!isValidPassword) {
-      return handleCustomHttpError(
-        res,
-        INVALID_USER.message,
-        INVALID_USER.code,
-      );
+      throw new ApiError(INVALID_USER.code, INVALID_USER.message);
     }
+
     const token = generateToken(user?._id);
     const responseData = { user, token };
     return res.status(200).json({ data: responseData });
   } catch (error) {
-    handleHttpError(res, error);
+    next(error);
   }
 };
 
-const register = async (req: Request, res: Response) => {
+const register: RequestHandler = async (req, res, next) => {
   try {
     const { email, password, username } = req.body;
 
     const userExist = await User.findOne({ email });
     if (userExist) {
-      return handleCustomHttpError(res, USER_EXIST.message, USER_EXIST.code);
+      throw new ApiError(USER_EXIST.code, USER_EXIST.message);
     }
+
     const passwordHash = await encryptPassword(password);
     const newUser = await User.create({
       email,
@@ -68,7 +62,7 @@ const register = async (req: Request, res: Response) => {
     const responseData = { user: newUser, token };
     return res.status(201).json({ data: responseData });
   } catch (error) {
-    handleHttpError(res, error);
+    next(error);
   }
 };
 
