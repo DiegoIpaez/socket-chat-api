@@ -1,4 +1,19 @@
-coverage/
-dist/
+# Logs
+logs
+*.log
+.pnpm-debug.log*
+
+# Dependencies
 node_modules/
+
+# Build
+dist/
+
+# Coverage
+coverage/
+
+# Editor
+.vscode/
+
+# Environment varibales
 .env
