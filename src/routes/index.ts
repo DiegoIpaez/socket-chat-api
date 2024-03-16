@@ -1,5 +1,5 @@
 import { Router, type IRouter } from 'express';
-import { validJWT } from '../middlewares/authMiddleware';
+import { validJWT } from '../middlewares/auth.middleware';
 import authRouter from './auth.route';
 import userRouter from './user.route';
 import messageRouter from './message.route';

@@ -3,7 +3,7 @@ import { login, register } from '../controllers/auth.controller';
 import {
   validatorRegister,
   validatorLogin,
-} from '../middlewares/authMiddleware';
+} from '../middlewares/auth.middleware';
 
 const router: IRouter = Router();
 

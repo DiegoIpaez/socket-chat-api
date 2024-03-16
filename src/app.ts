@@ -9,7 +9,7 @@ import { Server } from 'socket.io';
 
 import routes from './routes';
 import { streamSettings } from './utils/logger';
-import errorApiHandler from './middlewares/errorMiddleware';
+import errorApiHandler from './middlewares/error.middleware';
 import socketChatController from './controllers/chat.controller';
 
 const app = express();
