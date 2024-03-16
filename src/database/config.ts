@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import config from '../config';
+import logger from '../utils/logger';
 
 const { DB_MONGO, NODE_ENV, NODE_ENVS, TEST_DB_MONGO } = config;
 
@@ -12,9 +13,9 @@ const OPTIONS = {
 
 export const connectToMongoDB = async (): Promise<void> => {
   try {
-    const db = await mongoose.connect(URI, OPTIONS);
-    console.log('** ONLINE DATABASE **');
-    console.log('MongoDB connected to', db.connection.db.databaseName);
+    const { connection } = await mongoose.connect(URI, OPTIONS);
+    logger.info('*** ONLINE DATABASE ***');
+    logger.info(`*** Connected to MongoDB: ${connection.db.databaseName} ***`);
   } catch (err) {
     throw new Error(`Error starting database: ${err as string}`);
   }
@@ -23,7 +24,7 @@ export const connectToMongoDB = async (): Promise<void> => {
 export const disconnectFromMongoDB = async (): Promise<void> => {
   try {
     await mongoose.disconnect();
-    console.log('** OFFLINE DATABASE **');
+    logger.info('*** OFFLINE DATABASE ***');
   } catch (err) {
     throw new Error(`Error disconnecting from database: ${err as string}`);
   }

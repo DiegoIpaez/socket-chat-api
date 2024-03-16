@@ -1,6 +1,7 @@
 import server from './app';
 import config from './config';
 import { connectToMongoDB } from './database/config';
+import logger from './utils/logger';
 
 const PORT = config.PORT;
 
@@ -9,13 +10,13 @@ async function startServer(): Promise<void> {
     await connectToMongoDB();
     server.listen(PORT);
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     throw err;
   }
 }
 
 startServer()
   .then(() => {
-    console.log('Server listening on port:', PORT);
+    logger.info(`*** Server running on: [http://localhost:${PORT}] ***`);
   })
   .catch(() => process.exit(1));
