@@ -1,4 +1,4 @@
-import { usersData } from './userData';
+import { usersData } from './user.mock';
 
 const [userA, userB] = usersData;
 

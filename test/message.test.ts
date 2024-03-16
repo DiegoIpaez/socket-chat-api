@@ -1,7 +1,6 @@
 import supertest from 'supertest';
 import server from '../src/app';
-import { usersData } from './helpers/userData';
-import { messageData } from './helpers/messageData';
+import { messageData, usersData } from './mocks';
 import { generateToken } from '../src/utils/handleJWT';
 import {
   connectToMongoDB,
