@@ -1,7 +1,7 @@
 import { MONGO_SORT_ORDER } from '../constants';
 import { getAllUsersByFilters } from './user.service';
-import User from '../model/User';
-import Message from '../model/Message';
+import User from '../model/user.model';
+import Message from '../model/message.model';
 
 const getChatUsers = async () => {
   const query = {

@@ -2,7 +2,7 @@ import type { IUser } from '../interfaces';
 import jwt, { type JwtPayload } from 'jsonwebtoken';
 
 import config from '../config';
-import User from '../model/User';
+import User from '../model/user.model';
 
 interface JwtPayloadExt extends JwtPayload {
   id?: string;

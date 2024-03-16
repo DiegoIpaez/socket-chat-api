@@ -7,8 +7,8 @@ import {
   connectToMongoDB,
   disconnectFromMongoDB,
 } from '../src/database/config';
-import User from '../src/model/User';
-import Message from '../src/model/Message';
+import User from '../src/model/user.model';
+import Message from '../src/model/message.model';
 
 const [from, to] = usersData;
 const request = supertest(server);
