@@ -1,14 +1,12 @@
 import supertest from 'supertest';
 import server from '../src/app';
-import { usersData } from './helpers/userData';
-import { messageData } from './helpers/messageData';
+import { messageData, usersData } from './mocks';
 import { generateToken } from '../src/utils/handleJWT';
 import {
   connectToMongoDB,
   disconnectFromMongoDB,
 } from '../src/database/config';
-import User from '../src/model/User';
-import Message from '../src/model/Message';
+import { Message, User } from '../src/models';
 
 const [from, to] = usersData;
 const request = supertest(server);

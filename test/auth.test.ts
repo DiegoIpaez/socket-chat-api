@@ -1,11 +1,11 @@
 import supertest from 'supertest';
 import server from '../src/app';
-import { testAuthLogin, testAuthRegister } from './helpers/authData';
+import { testAuthLogin, testAuthRegister } from './mocks';
 import {
   connectToMongoDB,
   disconnectFromMongoDB,
 } from '../src/database/config';
-import User from '../src/model/User';
+import { User } from '../src/models';
 
 const request = supertest(server);
 

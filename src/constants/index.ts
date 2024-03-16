@@ -1,4 +1,4 @@
-export * from './errorMessagesConstant';
+export * from './errorMessages.constant';
 
 export const MONGO_SORT_ORDER = {
   ASC: 1 as const,

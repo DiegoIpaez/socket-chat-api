@@ -1,6 +1,6 @@
 import { Router, type IRouter } from 'express';
-import { lastMessagesValidator } from '../middlewares/messageMiddleware';
-import { getLatestMessagesByChat } from '../controllers/messageController';
+import { lastMessagesValidator } from '../middlewares/message.middleware';
+import { getLatestMessagesByChat } from '../controllers/message.controller';
 
 const router: IRouter = Router();
 

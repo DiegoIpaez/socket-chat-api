@@ -2,7 +2,7 @@ import type { ValidationChain } from 'express-validator';
 import type { RequestHandler } from 'express';
 import type { QuerySelector } from 'mongoose';
 
-export * from './schemaInterface';
+export * from './schema.interface';
 
 export enum IMongoSortOrder {
   ASC = 1,

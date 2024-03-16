@@ -4,7 +4,7 @@ import {
   getChatUsers,
   savePersonalMessage,
   connectOrDisconnectUser,
-} from '../services/chatService';
+} from '../services/chat.service';
 import { USER_CONNECTION_STATUS } from '../constants';
 
 type SocketFunction = (socket: Socket, io?: Server) => void;
