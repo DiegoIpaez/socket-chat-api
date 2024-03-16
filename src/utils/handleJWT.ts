@@ -1,7 +1,12 @@
-import type { JwtPayloadExt, IUser } from '../interfaces';
+import type { IUser } from '../interfaces';
+import jwt, { type JwtPayload } from 'jsonwebtoken';
+
 import config from '../config';
-import jwt from 'jsonwebtoken';
 import User from '../model/User';
+
+interface JwtPayloadExt extends JwtPayload {
+  id?: string;
+}
 
 const JWT_SECRET_KEY = config.JWT_SECRET_KEY;
 
