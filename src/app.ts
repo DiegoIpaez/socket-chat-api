@@ -10,7 +10,7 @@ import { Server } from 'socket.io';
 import routes from './routes';
 import { streamSettings } from './utils/logger';
 import errorApiHandler from './middlewares/errorMiddleware';
-import socketChatController from './controllers/chatController';
+import socketChatController from './controllers/chat.controller';
 
 const app = express();
 const server = createServer(app);

@@ -1,8 +1,8 @@
 import { Router, type IRouter } from 'express';
 import { validJWT } from '../middlewares/authMiddleware';
-import authRouter from './auth';
-import userRouter from './user';
-import messageRouter from './message';
+import authRouter from './auth.route';
+import userRouter from './user.route';
+import messageRouter from './message.route';
 
 const router: IRouter = Router();
 

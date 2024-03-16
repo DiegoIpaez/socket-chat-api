@@ -1,7 +1,7 @@
 import type { RequestHandler } from 'express';
 import httpStatus from 'http-status';
 import User from '../model/User';
-import { getAllUsersByFilters } from '../services/userService';
+import { getAllUsersByFilters } from '../services/user.service';
 import ApiError from '../utils/ApiError';
 import { ERROR_MESSAGES } from '../constants';
 

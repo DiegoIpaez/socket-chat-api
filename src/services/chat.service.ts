@@ -1,5 +1,5 @@
 import { MONGO_SORT_ORDER } from '../constants';
-import { getAllUsersByFilters } from './userService';
+import { getAllUsersByFilters } from './user.service';
 import User from '../model/User';
 import Message from '../model/Message';
 

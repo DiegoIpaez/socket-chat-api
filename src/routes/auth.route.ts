@@ -1,5 +1,5 @@
 import { Router, type IRouter } from 'express';
-import { login, register } from '../controllers/authController';
+import { login, register } from '../controllers/auth.controller';
 import {
   validatorRegister,
   validatorLogin,
