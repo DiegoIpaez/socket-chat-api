@@ -16,6 +16,7 @@ export interface IUser extends Document, CommonPropsModel {
   email: string;
   password: string;
   online: boolean;
+  uid?: string;
 }
 
 export interface IMessage extends Document, CommonPropsModel {
