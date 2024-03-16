@@ -9,6 +9,7 @@ import { Server } from 'socket.io';
 
 import routes from './routes';
 import { streamSettings } from './utils/logger';
+import errorApiHandler from './middlewares/errorMiddleware';
 import socketChatController from './controllers/chatController';
 
 const app = express();
@@ -29,5 +30,6 @@ io.on('connection', (socket) => {
 });
 
 app.use('/api', routes);
+app.use(errorApiHandler);
 
 export default server;
