@@ -2,13 +2,15 @@ import 'dotenv/config';
 import cors from 'cors';
 import path from 'path';
 import morgan from 'morgan';
-import compression from 'compression';
-import express, { json, urlencoded } from 'express';
-import { createServer } from 'http';
+import helmet from 'helmet';
 import { Server } from 'socket.io';
+import { createServer } from 'http';
+import compression from 'compression';
+import express, { json, urlencoded, static as staticMiddleware } from 'express';
 
 import routes from './routes';
 import { streamSettings } from './utils/logger';
+import rateLimit from './middlewares/rateLimit.middleware';
 import errorApiHandler from './middlewares/error.middleware';
 import socketChatController from './controllers/chat.controller';
 
@@ -17,11 +19,17 @@ const server = createServer(app);
 const io = new Server(server);
 
 app.use(cors());
-app.use(json());
-app.use(compression());
+app.use(helmet());
+app.use(rateLimit);
+
 app.use(morgan('dev', streamSettings));
-app.use(urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, '../src/public')));
+
+app.use(json());
+app.use(urlencoded({ extended: true, limit: '50mb' }));
+
+app.use(compression());
+
+app.use(staticMiddleware(path.join(__dirname, '../src/public')));
 
 io.on('connection', (socket) => {
   socketChatController.connectUser(socket, io);
