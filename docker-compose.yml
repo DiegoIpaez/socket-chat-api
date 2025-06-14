@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+  app:
+    build: .
+    container_name: socket-chat-api
+    ports:
+      - '3030:3030'
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      DB_MONGO: ${DB_MONGO}
+    depends_on:
+      - mongodb
+    volumes:
+      - .:/app
+    restart: unless-stopped
+
+  mongodb:
+    image: mongo:6.0
+    container_name: socket-chat-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./.docker/data/mongo_data:/data/db

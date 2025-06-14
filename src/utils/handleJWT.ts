@@ -11,7 +11,7 @@ interface JwtPayloadExt extends JwtPayload {
 const JWT_SECRET_KEY = config.JWT_SECRET_KEY;
 
 const generateToken = (id: string): string => {
-  const options = { expiresIn: '2h' };
+  const options: jwt.SignOptions = { expiresIn: '2h' };
   const token = jwt.sign({ id }, JWT_SECRET_KEY, options);
   return token;
 };
@@ -19,7 +19,8 @@ const generateToken = (id: string): string => {
 const validToken = async (token?: string): Promise<IUser> => {
   if (!token) throw new Error('Authentication failed! Token required.');
   try {
-    const jwtData: JwtPayloadExt | string = jwt.verify(token, JWT_SECRET_KEY);
+    const jwtData = jwt.verify(token, JWT_SECRET_KEY) as JwtPayloadExt;
+
     if (typeof jwtData !== 'string' && jwtData.id) {
       const user = await User.findById(jwtData.id);
       if (!user) throw new Error('Invalid user.');
