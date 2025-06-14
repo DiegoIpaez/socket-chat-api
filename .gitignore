@@ -17,3 +17,6 @@ coverage/
 
 # Environment varibales
 .env
+
+# Docker
+.docker
